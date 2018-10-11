@@ -144,7 +144,7 @@ if(saved_lat != undefined) {
 }
 	
 L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=YOURTOKENHERE', {
-    attribution: '<a href="https://www.openstreetmap.org/fixthemap">Missing something?</a> · <a href="./legal">Legal</a>',
+    attribution: '<a href="https://www.openstreetmap.org/fixthemap">Missing something?</a> · <a href="./legal.html">Legal</a>',
     maxZoom: 18,
     id: 'mapbox.streets',
     accessToken: 'YOURTOKENHERE'
@@ -155,8 +155,8 @@ map.addControl( new L.Control.Search({
 	url: 'http://nominatim.openstreetmap.org/search?format=json&q={s}',
 	jsonpParam: 'json_callback',
 	propertyName: 'display_name',
-	propertyLoc: ['lat','lon'],
-	marker: L.circleMarker([0,0],{radius:3}),
+	propertyLoc: ['lat', 'lon'],
+	marker: L.circleMarker([0,0], {radius:3}),
 	autoCollapse: true,
 	autoType: false,
 	minLength: 3
