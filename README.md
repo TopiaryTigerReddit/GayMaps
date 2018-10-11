@@ -16,14 +16,14 @@ Moreover, the following tags are detected:
 ## Contribute
 The code is partly based on [OpenLoveMap](https://github.com/thomersch/OpenLoveMap) source code. Feel free to helo thomersch's project too. The data are based on [OpenStreetMap.org](https://openstreetmap.org), so I encourage users to freely edit the map in order to improve data.
 
-Feel free to open bug reports and to contribute with pull requests!
+Feel free to [open bug reports](https://github.com/airon90/GayMaps/issues) and to contribute with [pull requests](https://github.com/airon90/GayMaps/pulls)!
 
-A translation of the website is to come. Follow this bug report in order to know more about that.
+A translation of the website is to come. Follow [this bug report](https://github.com/airon90/GayMaps/issues/3) in order to know more about that.
 
 ## Build
 1. Create a new token from [Mapbox](http://mapbox.com).
 2. Download the entire repo.
-3. Edit ```static/js/gaymap.js``` and replace ```YOURTOKENHERE``` with the token from Mapbox.
+3. Edit [```static/js/gaymap.js```](https://github.com/airon90/GayMaps/blob/master/static/js/gaymap.js#L146-L150) and replace ```YOURTOKENHERE``` with the token from Mapbox.
 4. Run ```index.html``` in a updated browser.
 
 ## Licenses
