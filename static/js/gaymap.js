@@ -156,9 +156,11 @@ if(saved_lat != undefined) {
 	map.setView([45, 8], 15);
 }
 	
-L.tileLayer('https://a.tile.openstreetmap.org/${z}/${x}/${y}.png', {
+L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiYWlyb245MCIsImEiOiJjam1vdW15ZDQwMnpiM2tvM3ZhbnMzMGR0In0.JWLDdunF9wfiDbbyRxHFew', {
     attribution: '<a href="https://www.openstreetmap.org/fixthemap">Missing something?</a> · <a href="./legal">Legal</a>',
     maxZoom: 18,
+    id: 'mapbox.streets',
+    accessToken: 'pk.eyJ1IjoiYWlyb245MCIsImEiOiJjam1vdW15ZDQwMnpiM2tvM3ZhbnMzMGR0In0.JWLDdunF9wfiDbbyRxHFew'
 }).addTo(map);
 
 
