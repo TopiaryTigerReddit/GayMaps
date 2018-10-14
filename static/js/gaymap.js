@@ -1,6 +1,8 @@
 var map;
 var saved_lat;
 var saved_lon;
+var kondom_icon, strip_icon, shop_icon, brothel_icon, register_icon;
+var poi_markers = new Array();
 
 function onLocationFound(e) {
 	var radius = e.accuracy / 2;
@@ -19,8 +21,8 @@ function element_to_map(data) {
 	var gayIcon;
 	var gayOnlyIcon;
 	var gayWelcomeIcon;
-	var poi_markers = new Array();
-  
+	var oh;
+	
 	condomIcon = L.icon({
 		iconUrl: '/img/condom.png',
 		iconSize: [30, 30],
@@ -62,15 +64,15 @@ function element_to_map(data) {
 		if(el.tags != undefined && el.tags.entrance != "yes") {
 			var mrk, popup_content;
 
-			if(el.tags.vending != undefined) {
+			if (el.tags.vending != undefined) {
 				mrk = L.marker([el.lat, el.lon], {icon: condomIcon});
 				mrk.bindPopup("Condom vending machine");
 			} else {
 				if (el.tags.gay == "yes") {
 					mrk = L.marker([el.lat, el.lon], {icon: gayIcon});
-				} else if(el.tags.gay == "only") {
+				} else if (el.tags.gay == "only") {
 					mrk = L.marker([el.lat, el.lon], {icon: gayOnlyIcon});
-				} else if(el.tags.gay == "welcome") {
+				} else if (el.tags.gay == "welcome") {
 					mrk = L.marker([el.lat, el.lon], {icon: gayWelcomeIcon});
 				}
 							
@@ -99,7 +101,18 @@ function element_to_map(data) {
 						break;
 				}
 				
+				if (el.tags.opening_hours != undefined) {
+					oh = new opening_hours(el.tags.opening_hours);
+					text += "<div class=\"state\">";
+					if (oh.getState()) {
+						text += "<span style=\"color:green;\">Open</span>";
+					} else {
+						text += "<span style=\"color:red;\">Closed</span>";
+					} 
+					text += "</div>";
+				}
 				text += "<div class=\"more_on_osm\"><a href=\"https://www.openstreetmap.org/" + el.type + "/" + el.id + "\">More...</a></div>";
+				text += "<div class=\"drive\"><a href=\"geo:" + el.lat + "," + el.lon + "\">Go here</a></div>";
 				
 				mrk.bindPopup(text);
 			}
@@ -143,11 +156,9 @@ if(saved_lat != undefined) {
 	map.setView([45, 8], 15);
 }
 	
-L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=YOURTOKENHERE', {
-    attribution: '<a href="https://www.openstreetmap.org/fixthemap">Missing something?</a> · <a href="./legal.html">Legal</a>',
+L.tileLayer('https://a.tile.openstreetmap.org/${z}/${x}/${y}.png', {
+    attribution: '<a href="https://www.openstreetmap.org/fixthemap">Missing something?</a> · <a href="./legal">Legal</a>',
     maxZoom: 18,
-    id: 'mapbox.streets',
-    accessToken: 'YOURTOKENHERE'
 }).addTo(map);
 
 
@@ -155,8 +166,8 @@ map.addControl( new L.Control.Search({
 	url: 'http://nominatim.openstreetmap.org/search?format=json&q={s}',
 	jsonpParam: 'json_callback',
 	propertyName: 'display_name',
-	propertyLoc: ['lat', 'lon'],
-	marker: L.circleMarker([0,0], {radius:3}),
+	propertyLoc: ['lat','lon'],
+	marker: L.circleMarker([0,0],{radius:3}),
 	autoCollapse: true,
 	autoType: false,
 	minLength: 3
