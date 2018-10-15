@@ -19,8 +19,7 @@ function onLocationError(e) {
 function element_to_map(data) {
 	var condomIcon;
 	var gayIcon;
-	var gayOnlyIcon;
-	var gayWelcomeIcon;
+	var mrk;
 	var oh;
 	
 	condomIcon = L.icon({
@@ -32,20 +31,6 @@ function element_to_map(data) {
 
 	gayIcon = L.icon({
 		iconUrl: '/img/gay.png',
-		iconSize: [30, 30],
-		iconAnchor: [15, 15],
-		popupAnchor: [0, -15]
-	});
-
-	gayOnlyIcon = L.icon({
-		iconUrl: '/img/gayonly.png',
-		iconSize: [30, 30],
-		iconAnchor: [15, 15],
-		popupAnchor: [0, -15]
-	});
-
-	gayWelcomeIcon = L.icon({
-		iconUrl: '/img/gaywelcome.png',
 		iconSize: [30, 30],
 		iconAnchor: [15, 15],
 		popupAnchor: [0, -15]
@@ -62,24 +47,12 @@ function element_to_map(data) {
 		}
 
 		if(el.tags != undefined && el.tags.entrance != "yes") {
-			var mrk, popup_content;
-
-			if (el.tags.vending != undefined) {
+			if (el.tags.vending == "condom") {
 				mrk = L.marker([el.lat, el.lon], {icon: condomIcon});
 				text = "Condom vending machine";
-				text += "<div class=\"drive\"><a href=\"geo:" + el.lat + "," + el.lon + "\">Go here</a></div>";
-				mrk.bindPopup(text);
-			} else {
-				if (el.tags.gay == "yes") {
-					mrk = L.marker([el.lat, el.lon], {icon: gayIcon});
-				} else if (el.tags.gay == "only") {
-					mrk = L.marker([el.lat, el.lon], {icon: gayOnlyIcon});
-				} else if (el.tags.gay == "welcome") {
-					mrk = L.marker([el.lat, el.lon], {icon: gayWelcomeIcon});
-				}
-							
-				text = "<b>" + el.tags.name + "</b>";
-				
+			} else if (el.tags.gay != undefined) {
+				mrk = L.marker([el.lat, el.lon], {icon: gayIcon});	
+				text = "<b>" + el.tags.name + "</b>";	
 				switch (el.tags.amenity) {
 					case "bar":
 						text += " (bar)";
@@ -113,11 +86,23 @@ function element_to_map(data) {
 					} 
 					text += "</div>";
 				}
+				if (el.tags.contact.phone != undefined || el.tags.phone != undefined) {
+					if (el.tags.contact.phone != undefined) {
+						text += "<div class=\"phone\">&#128222; " + el.tags.contact.phone + "</div>";
+					} else {
+						text += "<div class=\"phone\">&#128222; " + el.tags.phone + "</div>";
+					}
+				}
+				if (el.tags.contact.facebook != undefined) {
+					text += "<div class=\"facebook\"><a href=\"" + el.tags.contact.facebook + "\">Facebook</a></div>";
+				}
+				if (el.tags.contact.instagram != undefined) {
+					text += "<div class=\"instagram\"><a href=\"" + el.tags.contact.instagram + "\">Instagram</a></div>";
+				}
 				text += "<div class=\"more_on_osm\"><a href=\"https://www.openstreetmap.org/" + el.type + "/" + el.id + "\">More...</a></div>";
-				text += "<div class=\"drive\"><a href=\"geo:" + el.lat + "," + el.lon + "\">Go here</a></div>";
-				
-				mrk.bindPopup(text);
 			}
+			text += "<div class=\"drive\"><a href=\"geo:" + el.lat + "," + el.lon + "\"">Go here</a></div>";
+			mrk.bindPopup(text);
 		}
 		poi_markers.push(mrk);
 		mrk.addTo(map);
@@ -159,7 +144,7 @@ if(saved_lat != undefined) {
 }
 	
 L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiYWlyb245MCIsImEiOiJjam1vdW15ZDQwMnpiM2tvM3ZhbnMzMGR0In0.JWLDdunF9wfiDbbyRxHFew', {
-    attribution: '<a href="https://www.openstreetmap.org/fixthemap">Missing something?</a> · <a href="./about.html">About/License</a>',
+    attribution: '<a href="https://www.openstreetmap.org/fixthemap">Missing something?</a> · <a href="./about.html">About/Licenses</a>',
     maxZoom: 18,
     id: 'mapbox.streets',
     accessToken: 'pk.eyJ1IjoiYWlyb245MCIsImEiOiJjam1vdW15ZDQwMnpiM2tvM3ZhbnMzMGR0In0.JWLDdunF9wfiDbbyRxHFew'
