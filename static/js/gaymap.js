@@ -20,6 +20,7 @@ function element_to_map(data) {
 	var gayIcon;
 	var mrk;
 	var oh;
+	var text;
 	
 	condomIcon = L.icon({
 		iconUrl: '/img/condom.png',
@@ -101,8 +102,6 @@ function element_to_map(data) {
 				text += "<div class=\"more_on_osm\"><a href=\"https://www.openstreetmap.org/" + el.type + "/" + el.id + "\">More...</a></div>";
 			}
 			text += "<div class=\"drive\"><a href=\"geo:" + el.lat + "," + el.lon + "\"">Go here</a></div>";
-			// DEBUG
-			text = el.tags;
 			mrk.bindPopup(text);
 		}
 		poi_markers.push(mrk);
