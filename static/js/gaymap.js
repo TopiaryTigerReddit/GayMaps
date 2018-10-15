@@ -82,6 +82,7 @@ function element_to_map(data) {
                     }
                     text += "</div>";
                 }
+                /*
                 if (el.tags.addr:street != undefined) {
                     text += "<div class=\"addr\">" + el.tags.addr:street;
                     if (el.tags.addr:housenumber != undefined) {
@@ -115,6 +116,7 @@ function element_to_map(data) {
                 if (el.tags.contact:instagram != undefined) {
                     text += "<div class=\"instagram\"><a href=\"" + el.tags.contact:instagram + "\">Instagram</a></div>";
                 }
+                */
                 text += "<div class=\"more_on_osm\"><a href=\"https://www.openstreetmap.org/" + el.type + "/" + el.id + "\">More...</a></div>";
             }
             text += "<div class=\"drive\"><a href=\"geo:" + el.lat + "," + el.lon + "\">Go here</a></div>";
