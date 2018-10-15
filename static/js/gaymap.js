@@ -31,7 +31,7 @@ function element_to_map(data) {
 	});
 
 	gayIcon = L.icon({
-		iconUrl: '/img/stripclub2.png',
+		iconUrl: '/img/gay.png',
 		iconSize: [30, 30],
 		iconAnchor: [15, 15],
 		popupAnchor: [0, -15]
@@ -66,7 +66,9 @@ function element_to_map(data) {
 
 			if (el.tags.vending != undefined) {
 				mrk = L.marker([el.lat, el.lon], {icon: condomIcon});
-				mrk.bindPopup("Condom vending machine");
+				text = "Condom vending machine";
+				text += "<div class=\"drive\"><a href=\"geo:" + el.lat + "," + el.lon + "\">Go here</a></div>";
+				mrk.bindPopup(text);
 			} else {
 				if (el.tags.gay == "yes") {
 					mrk = L.marker([el.lat, el.lon], {icon: gayIcon});
