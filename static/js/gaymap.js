@@ -16,7 +16,6 @@ function onLocationError(e) {
 function element_to_map(data) {
     var condomIcon;
     var gayIcon;
-    var mrk;
     var oh;
     var text;
 
@@ -33,6 +32,7 @@ function element_to_map(data) {
         iconAnchor: [15, 15],
         popupAnchor: [0, -15]
     });
+
     $.each(poi_markers, function(_, mrk) {
         map.removeLayer(mrk);
     });
@@ -43,7 +43,9 @@ function element_to_map(data) {
             el.lon = el.center.lon;
         }
 
-        if(el.tags != undefined && el.tags.entrance != "yes") {
+        if (el.tags != undefined && el.tags.entrance != "yes") {
+            var mrk, popup_content;
+
             if (el.tags.vending != undefined) {
                 mrk = L.marker([el.lat, el.lon], {icon: condomIcon});
                 mrk.bindPopup("Condom vending machine");
@@ -73,7 +75,9 @@ function element_to_map(data) {
                         break;
                     default:
                         text += " (" + el.tags.amenity + ")";
+                        break;
                 }
+
                 if (el.tags.opening_hours != undefined) {
                     oh = new opening_hours(el.tags.opening_hours);
                     text += "<div class=\"state\">";
@@ -97,7 +101,7 @@ function element_to_map(data) {
 
 function getPOI() {
     var bbox;
-    var dataJSON;
+
     if (map.getZoom() < 12) {
         return null;
     }
@@ -117,7 +121,7 @@ function getPOI() {
     });
 }
 
-map = L.map('map');
+map = L.map('map')
 
 saved_lat = localStorage.getItem("pos_lat");
 saved_lon = localStorage.getItem("pos_lon");
@@ -129,7 +133,7 @@ if(saved_lat != undefined) {
 }
 
 L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiYWlyb245MCIsImEiOiJjam1vdW15ZDQwMnpiM2tvM3ZhbnMzMGR0In0.JWLDdunF9wfiDbbyRxHFew', {
-    attribution: '<a href="https://www.openstreetmap.org/fixthemap">Missing something?</a> · <a href="./about.html">About/Licenses</a>',
+    attribution: '<a href="https://www.openstreetmap.org/fixthemap">Missing something?</a> · <a href="./legal">Legal</a>',
     maxZoom: 18,
     id: 'mapbox.streets',
     accessToken: 'pk.eyJ1IjoiYWlyb245MCIsImEiOiJjam1vdW15ZDQwMnpiM2tvM3ZhbnMzMGR0In0.JWLDdunF9wfiDbbyRxHFew'
