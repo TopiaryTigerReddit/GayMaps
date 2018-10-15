@@ -38,17 +38,19 @@ function element_to_map(data) {
     });
 
     $.each(data.elements, function(_, el) {
-        if (el.lat == undefined) {
+        if(el.lat == undefined) {
             el.lat = el.center.lat;
             el.lon = el.center.lon;
         }
 
-        if (el.tags != undefined && el.tags.entrance != "yes") {
-            if (el.tags.vending == "condoms" || el.tags.vending == "condom") {
+        if(el.tags != undefined && el.tags.entrance != "yes") {
+            if (el.tags.vending != undefined) {
                 mrk = L.marker([el.lat, el.lon], {icon: condomIcon});
-                text = "Condom vending machine";
-            } else if (el.tags.gay == "yes") {
-                mrk = L.marker([el.lat, el.lon], {icon: gayIcon});
+                mrk.bindPopup("Condom vending machine");
+            } else {
+                if (el.tags.gay == "yes") {
+                    mrk = L.marker([el.lat, el.lon], {icon: gayIcon});
+                }
                 text = "<b>" + el.tags.name + "</b>";
 
                 switch (el.tags.amenity) {
@@ -82,45 +84,11 @@ function element_to_map(data) {
                     }
                     text += "</div>";
                 }
-                /*
-                if (el.tags.addr:street != undefined) {
-                    text += "<div class=\"addr\">" + el.tags.addr:street;
-                    if (el.tags.addr:housenumber != undefined) {
-                        text += " " + el.tags.addr:housenumber;
-                    }
-                    if (el.tags.addr:housenumber != undefined) {
-                        text += " " + el.tags.addr:housenumber;
-                    }
-                    if (el.tags.addr:postcode != undefined || el.tags.addr:city != undefined) {
-                        text += ",<br />" + el.tags.addr:housenumber + " " + el.tags.addr:city;
-                    }
-                    text += "</div>";
-                }
-                if (el.tags.contact:phone != undefined || el.tags.phone != undefined) {
-                    if (el.tags.contact:phone != undefined) {
-                        text += "<div class=\"phone\">&#128222; <a href=\"tel:" + el.tags.contact:phone + "\">" + el.tags.contact:phone + "</a></div>";
-                    } else {
-                        text += "<div class=\"phone\">&#128222; <a href=\"tel:" + el.tags.phone + "\">" + el.tags.contact:phone + "</a></div>";
-                    }
-                }
-                if (el.tags.contact:website != undefined || el.tags.website != undefined) {
-                    if (el.tags.contact:website != undefined) {
-                        text += "<div class=\"website\"><a href=\"" + el.tags.contact:website + "\">Official website</a></div>";
-                    } else {
-                        text += "<div class=\"website\"><a href=\"" + el.tags.website + "\">Official website</a></div>";
-                    }
-                }
-                if (el.tags.contact:facebook != undefined) {
-                    text += "<div class=\"facebook\"><a href=\"" + el.tags.contact:facebook + "\">Facebook</a></div>";
-                }
-                if (el.tags.contact:instagram != undefined) {
-                    text += "<div class=\"instagram\"><a href=\"" + el.tags.contact:instagram + "\">Instagram</a></div>";
-                }
-                */
                 text += "<div class=\"more_on_osm\"><a href=\"https://www.openstreetmap.org/" + el.type + "/" + el.id + "\">More...</a></div>";
+                text += "<div class=\"drive\"><a href=\"geo:" + el.lat + "," + el.lon + "\">Go here</a></div>";
+
+                mrk.bindPopup(text);
             }
-            text += "<div class=\"drive\"><a href=\"geo:" + el.lat + "," + el.lon + "\">Go here</a></div>";
-            mrk.bindPopup(text);
         }
         poi_markers.push(mrk);
         mrk.addTo(map);
