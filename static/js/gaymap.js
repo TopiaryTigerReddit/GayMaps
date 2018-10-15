@@ -44,49 +44,47 @@ function element_to_map(data) {
         }
 
         if(el.tags != undefined && el.tags.entrance != "yes") {
-            if (el.tags.vending != undefined) {
+            if (el.tags.vending == "condom" || el.tags.vending == "condoms") {
                 mrk = L.marker([el.lat, el.lon], {icon: condomIcon});
-                mrk.bindPopup("Condom vending machine");
-            } else {
-                if (el.tags.gay == "yes") {
+                text = "Condom vending machine";
+            } else if (el.tags.gay == "yes") {
                     mrk = L.marker([el.lat, el.lon], {icon: gayIcon});
-                }
-                text = "<b>" + el.tags.name + "</b>";
+                    text = "<b>" + el.tags.name + "</b>";
 
-                switch (el.tags.amenity) {
-                    case "bar":
-                        text += " (bar)";
-                        break;
-                    case "restaurant":
-                        text += " (restaurant)";
-                        break;
-                    case "cafe":
-                        text += " (cafè)";
-                        break;
-                    case "fast_food":
-                        text += " (fast food)";
-                        break;
-                    case undefined:
-                        if (el.tags.office == "association") {
-                            text += " (association)";
-                        }
-                        break;
-                    default:
-                        text += " (" + el.tags.amenity + ")";
-                }
-                if (el.tags.opening_hours != undefined) {
-                    oh = new opening_hours(el.tags.opening_hours);
-                    text += "<div class=\"state\">";
-                    if (oh.getState()) {
-                        text += "<span style=\"color:green;\">Open</span>";
-                    } else {
-                        text += "<span style=\"color:red;\">Closed</span>";
+                    switch (el.tags.amenity) {
+                        case "bar":
+                            text += " (bar)";
+                            break;
+                        case "restaurant":
+                            text += " (restaurant)";
+                            break;
+                        case "cafe":
+                            text += " (cafè)";
+                            break;
+                        case "fast_food":
+                            text += " (fast food)";
+                            break;
+                        case undefined:
+                            if (el.tags.office == "association") {
+                                text += " (association)";
+                            }
+                            break;
+                        default:
+                            text += " (" + el.tags.amenity + ")";
                     }
-                    text += "</div>";
+                    if (el.tags.opening_hours != undefined) {
+                        oh = new opening_hours(el.tags.opening_hours);
+                        text += "<div class=\"state\">";
+                        if (oh.getState()) {
+                            text += "<span style=\"color:green;\">Open</span>";
+                        } else {
+                            text += "<span style=\"color:red;\">Closed</span>";
+                        }
+                        text += "</div>";
+                    }
+                    text += "<div class=\"more_on_osm\"><a href=\"https://www.openstreetmap.org/" + el.type + "/" + el.id + "\">More...</a></div>";
                 }
-                text += "<div class=\"more_on_osm\"><a href=\"https://www.openstreetmap.org/" + el.type + "/" + el.id + "\">More...</a></div>";
                 text += "<div class=\"drive\"><a href=\"geo:" + el.lat + "," + el.lon + "\">Go here</a></div>";
-
                 mrk.bindPopup(text);
             }
         }
