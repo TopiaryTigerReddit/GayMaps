@@ -43,8 +43,8 @@ function element_to_map(data) {
             el.lon = el.center.lon;
         }
 
-        if(el.tags != undefined && el.tags.entrance != "yes") {
-            if (el.tags.vending == "condom" || el.tags.vending == "condoms") {
+        if (el.tags != undefined && el.tags.entrance != "yes") {
+            if (el.tags.vending != undefined) {
                 mrk = L.marker([el.lat, el.lon], {icon: condomIcon});
                 text = "Condom vending machine";
             } else if (el.tags.gay == "yes") {
