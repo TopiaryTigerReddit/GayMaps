@@ -152,12 +152,12 @@ function getPOI() {
     });
 }
 
-map = L.map('map')
+map = L.map('map');
 
 saved_lat = localStorage.getItem("pos_lat");
 saved_lon = localStorage.getItem("pos_lon");
 
-if(saved_lat != undefined) {
+if (saved_lat != undefined) {
     map.setView([saved_lat, saved_lon], 17);
 } else {
     map.setView([45, 8], 15);
