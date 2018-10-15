@@ -1,3 +1,4 @@
+'use strict';
 var map;
 var saved_lat;
 var saved_lon;
@@ -43,7 +44,7 @@ function element_to_map(data) {
             el.lon = el.center.lon;
         }
 
-        if(el.tags != undefined && el.tags.entrance != "yes") {
+        if (el.tags != undefined && el.tags.entrance != "yes") {
             if (el.tags.vending == "condoms" || el.tags.vending == "condom") {
                 mrk = L.marker([el.lat, el.lon], {icon: condomIcon});
                 text = "Condom vending machine";
