@@ -1,7 +1,6 @@
 var map;
 var saved_lat;
 var saved_lon;
-var kondom_icon, strip_icon, shop_icon, brothel_icon, register_icon;
 var poi_markers = new Array();
 
 function onLocationFound(e) {
@@ -102,6 +101,8 @@ function element_to_map(data) {
 				text += "<div class=\"more_on_osm\"><a href=\"https://www.openstreetmap.org/" + el.type + "/" + el.id + "\">More...</a></div>";
 			}
 			text += "<div class=\"drive\"><a href=\"geo:" + el.lat + "," + el.lon + "\"">Go here</a></div>";
+			// DEBUG
+			text = el.tags;
 			mrk.bindPopup(text);
 		}
 		poi_markers.push(mrk);
