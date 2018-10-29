@@ -104,21 +104,21 @@ function getPOI() {
 
     if (map.getZoom() < 12) {
         return null;
+    } else {
+        localStorage.setItem("pos_lat", map.getCenter().lat);
+        localStorage.setItem("pos_lon", map.getCenter().lng);
+
+        bbox = map.getBounds().getSouth() + "," + map.getBounds().getWest() + "," + map.getBounds().getNorth() +  "," + map.getBounds().getEast();
+
+        $.ajax({
+            dataType: "json",
+            url: "https://overpass-api.de/api/interpreter",
+            data: {
+                "data": '[out:json][timeout:50];(node["vending"="condoms"]('+bbox+');way["vending"="condoms"]('+bbox+');relation["vending"="condoms"]('+bbox+');node["gay"="yes"]('+bbox+');way["gay"="yes"]('+bbox+');relation["gay"="yes"]('+bbox+');node["gay"="welcome"]('+bbox+');way["gay"="welcome"]('+bbox+');relation["gay"="welcome"]('+bbox+');node["gay"="only"]('+bbox+');way["gay"="only"]('+bbox+');relation["gay"="only"]('+bbox+');); out body center;'
+            },
+            success: element_to_map
+        });
     }
-
-    localStorage.setItem("pos_lat", map.getCenter().lat);
-    localStorage.setItem("pos_lon", map.getCenter().lng);
-
-    bbox = map.getBounds().getSouth() + "," + map.getBounds().getWest() + "," + map.getBounds().getNorth() +  "," + map.getBounds().getEast();
-
-    $.ajax({
-        dataType: "json",
-        url: "https://overpass-api.de/api/interpreter",
-        data: {
-            "data": '[out:json][timeout:25];(node["vending"="condoms"]('+bbox+');way["vending"="condoms"]('+bbox+');relation["vending"="condoms"]('+bbox+');node["gay"="yes"]('+bbox+');way["gay"="yes"]('+bbox+');relation["gay"="yes"]('+bbox+');node["gay"="welcome"]('+bbox+');way["gay"="welcome"]('+bbox+');relation["gay"="welcome"]('+bbox+');node["gay"="only"]('+bbox+');way["gay"="only"]('+bbox+');relation["gay"="only"]('+bbox+');); out body center;'
-        },
-        success: element_to_map
-    });
 }
 
 map = L.map('map')
